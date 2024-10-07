@@ -1,0 +1,63 @@
+{
+  "name": "chap04",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node src",
+
+    "sample1": "ts-node src/04-1/sample1",
+    "sample2": "ts-node src/04-1/sample2",
+    "sample3": "ts-node src/04-1/sample3",
+    "sample4": "ts-node src/04-1/sample4",
+    "sample5": "ts-node src/04-1/sample5",
+    "sample6": "ts-node src/04-1/sample6",
+    "sample7": "ts-node src/04-2/sample7",
+    "sample8": "ts-node src/04-2/sample8",
+    "sample9": "ts-node src/04-2/sample9",
+    "sample10": "ts-node src/04-2/sample10",
+    "sample11": "ts-node src/04-2/sample11",
+    "sample12": "ts-node src/04-2/sample12",
+    "sample13": "ts-node src/04-2/sample13",
+    "sample14": "ts-node src/04-2/sample14",
+    "sample15": "ts-node src/04-3/sample15",
+    "sample16": "ts-node src/04-3/sample16",
+    "sample17": "ts-node src/04-3/sample17",
+    "sample18": "ts-node src/04-3/sample18",
+    "sample19": "ts-node src/04-3/sample19",
+    "sample20": "ts-node src/04-3/sample20",
+    "sample21": "ts-node src/04-3/sample21",
+    "sample22": "ts-node src/04-3/sample22",
+    "sample23-1": "ts-node src/04-4/sample23-1",
+    "sample23-2": "ts-node src/04-4/sample23-2",
+    "sample24": "ts-node src/04-4/sample24",
+    "sample25-1": "ts-node src/04-4/sample25-1",
+    "sample25-2": "ts-node src/04-4/sample25-2",
+    "sample26": "ts-node src/04-5/sample26",
+    "sample27": "ts-node src/04-5/sample27",
+    "sample28": "ts-node src/04-5/sample28",
+    "sample29": "ts-node src/04-5/sample29",
+    "sample30": "ts-node src/04-5/sample30",
+    "sample30-1": "ts-node src/04-5/sample30-1",
+    "sample31": "ts-node src/04-6/sample31",
+    "sample32-1": "ts-node src/04-6/sample32-1",
+    "sample32-2": "ts-node src/04-6/sample32-2",
+    "sample33": "ts-node src/04-6/sample33",
+    "sample34": "ts-node src/04-6/sample34",
+    "sample35-1": "ts-node src/04-6/sample35-1",
+    "sample35-2": "ts-node src/04-6/sample35-2",
+
+    "build": "tsc & node dist",
+    "clean": "rm -rf dist node_modules"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@types/node": "^20.8.10"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "chap02-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node ./src",
+    "build": "tsc && node ./dist",
+    "clean": "rm -rf ./dist ./node_modules"
+  },
+  "keywords": [],
+  "author": "Yoseph",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chance": "^1.1.5",
+    "@types/node": "^20.8.10",
+    "@types/ramda": "^0.29.7",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "chance": "^1.1.11",
+    "ramda": "^0.29.1"
+  }
+}

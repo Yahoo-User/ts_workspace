@@ -1,0 +1,191 @@
+========================================================
+* Step1. TypeScript Project 만들기
+========================================================
+
+	> mkdir chap02-2
+	> cd chap02-2
+
+	@ 1. Check npm runtime environment.
+	> npm doctor
+
+
+	@ 2-1. Check global packages for TypeScript Project.
+
+	@ If `typescript`, `ts-node`, `@types/node` *NOT* exists,
+	@ > npm i -g typescript ts-node @types/node 
+	@ > npm ls -g --depth=0
+
+	@ 2-2. Check local packages for TypeScript Project.
+	> npm i { -D | --save-dev } typescript ts-node @types/node
+	> npm ls --depth=0
+
+
+	@ 3. Make a `package.json` file.
+	> npm init --yes
+
+
+	@ 4. Configure scripts named "dev", "build", "clear"
+
+	  ...
+	  "scripts": {
+	    "dev": "ts-node src",
+	    "build": "tsc && node dist",
+	    "clear": "rm -rf dist node_modules"
+	  },
+	  ...
+
+	> npm run
+
+
+	@ 5. Make a `tsconfig.json` file.
+
+	> tsc --init
+
+	{
+		"compilerOptions": {
+			"module": "commonjs",						①
+			"esModuleInterop": true,					②
+			"target": "es5",							③
+			"moduleResolution": "node",					④
+			"outDir": "dist",							⑤
+			"baseUrl": ".",								⑥
+			"sourceMap": true,							⑦
+			"downlevelIteration": true,					⑧
+			"noImplicitAny": false,						⑨
+			"paths": { "*" : [ "node_modules/*" ] }		⑩
+		},
+
+		"include" : [ "src/**/*" ]						⑪
+	}
+
+
+	@ 6. Make sample `src/index.ts`.
+
+	> mkdir src
+	> echo console.log('chap02-2') > src/index.ts
+	
+	@ 7. 
+	> npm ls -g --depth=0|1|2|...
+	> npm ls --depth=0|1|2|...
+
+	> npm run
+
+	> npm run dev
+	> npm run build
+	> npm run clear
+
+	* 1개의 모듈(`index.ts`)로 전체 소스 구현.						<--- ***
+
+
+========================================================
+* Step2. `index.ts` 파일 모듈화
+========================================================
+
+	> cd chap02-2
+	> cd src && mkdir person
+
+	> touch Person.ts
+	> vi Person.ts
+
+	- `index.ts` 의 소스코드를, `src/index.ts`와  `src/person/Person.ts` 파일로 소스 분할.	<--- ***
+
+
+========================================================
+* Step3. `export` 키워드 추가
+========================================================
+
+	> cd src/person/
+	> vi Person.ts
+
+	- `IPerson`과 `makePerson` 에 `export` 추가
+
+
+========================================================
+* Step4. `import` 키워드 추가
+========================================================
+
+	> cd src/
+	> vi index.ts
+
+	- `import { IPerson, makePerson } from './person/Person' 추가
+
+
+========================================================
+* Step5. `import * as` 구문 추가
+========================================================
+
+	> cd src/utils
+	> vi makeRandomNumber.ts
+
+	- `src/person/Person.ts` 소스에서, `makeRandomNumber` 함수 빼내어 추가
+
+	> cd src/person/
+	> vi Person.ts
+
+	- `import * as U from '../utils/makeRandomNumber'` 구문 추가
+
+
+========================================================
+* Step6. `export default` 키워드 추가
+========================================================
+
+	> cd src/person
+	> touch IPerson.ts
+	> vi IPerson.ts
+
+	- `IPerson` interface 키워드 앞에, `export default` 키워드 추가
+
+
+========================================================
+* Step7. `export default` 키워드 붙인 요소에 대한 `import ` 구문 추가
+========================================================
+
+	> cd src/person/
+	> vi Person.ts
+
+	- `import IPerson from './IPerson' 추가
+
+
+========================================================
+* Step8. External `chance`, `ramda` packages 추가설치
+========================================================
+
+	> npm i -S chance ramda
+	> npm i -D @types/chance @types/ramda
+
+	> npm ls --depth=0
+
+	@ Utility library to generate anything random
+	> npm view chance
+
+	@ A practical functional library for JavaScript programmers.
+	> npm view ramda
+
+
+	> more package.json
+	{
+
+		...
+
+		"devDependencies": {
+			"@types/chance": "^1.1.5",
+			"@types/node": "^20.8.10",
+			"@types/ramda": "^0.29.7",
+			"ts-node": "^10.9.1",
+			"typescript": "^5.2.2"
+		},
+
+		"dependencies": {
+			"chance": "^1.1.11",
+			"ramda": "^0.29.1"
+		}
+
+		...
+
+	}
+
+
+	> npm run dev
+
+	> npm run build
+

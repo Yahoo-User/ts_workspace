@@ -1,0 +1,194 @@
+*************************************************************
+* Chapter 01-3. 타입스크립트 개발환경 만들기                *
+*************************************************************
+
+
+01. 타입스크립트 개발환경 == Node.js 개발환경과 같음. (***)
+
+02. `Node.js` + Visual Source Code + Google Chrome Web Browser 설치 => 바로 개발가능 (***)
+
+03. `scoop` 프로그램을 통해, 위에서 필요한 각 프로그램 설치 및 버전관리
+
+	- `scoop` 으로 설치한 프로그램은, 아래 명령으로 한꺼번에 최신버전으로 업데이트 가능
+
+		> scoop update *
+
+
+04. `scoop` Package Manager Installation
+
+	(1) Windows Powershell 수행 - `관리자` 권한으로 실행 (***)
+
+	(2) `scoop` 설치 - 아래 명령을 차례대로 수행 (***)
+
+		// 1. 윈도우 실행정책 변경. (***)
+		// Optional: Needed to run a remote script the first time.
+		> Set-ExecutionPolicy RemoteSigned -scope CurrentUser 	// 명령실행 후, 'A' 입력
+
+
+		// 2. scoop을 포함한, scoop으로 설치할 모든 프로그램의 top 위치 설정. (* 1회성 환경설정 *)
+
+		// > $env:SCOOP = 'C:\app\scoop'						// 안함 (***)
+
+		// 3. `SCOOP` 환경변수를 영구적으로 설정하기 위해, 아래 명령으로 설정. (***)
+
+		> sysdm.cpl > 시스템속성 윈도우 > 고급 탭 > `환경변수` 버튼 클릭 > 사용자변수 > 새로만들기 버튼클릭
+		> 변수이름: SCOOP 입력 > 변수값: C:\app\scoop 경로입력 > 확인 > 확인
+
+		> irm get.scoop.sh | iex 								// scoope 설치
+
+		> scoop install aria2 									// 병렬설치 위하여, aria2 설치
+
+		// scoop은 내부적으로, 다양한 설치관련정보를 github 저장소에서 획득.
+		> scoop install git 									// 버전관리 git 설치
+
+
+05. Visual Source Code Installation
+
+	- TypeScript 지원에 가장 많은 공을 들인 오픈소스 편집기
+
+	- 설치 :
+
+		> scoop bucket add extras
+		> scoop search vscode
+		> scoop info --verbose vscode
+		> scoop install vscode 			// Lightweight but powerful source code editor
+		> scoop prefix vscode 			// Returns the path to the specified app
+		> scoop cat vscode				// Show content of specified manifest.
+		> scoop home vscode				// Opens the app homepage.
+
+
+06. Node.JS Installation -> Node.JS 버전관리 유틸리티(nvm) 설치로 변경 (***)
+
+	- 설치#1 : *비추*
+
+		> scoop search nodejs
+		> scoop info --verbose nodejs-lts
+		> scoop install nodejs-lts 		// An asynchronous event driven JavaScript runtime
+										// designed to build scalable network applications.
+										// (Long Term Support)
+		> scoop prefix nodejs-lts		// Returns the path to the specified app
+		> scoop cat nodejs-lts 			// Show content of specified manifest.
+		> scoop home nodejs-lts 		// Opens the app homepage.
+
+
+	- 설치#2 : *추천*
+
+		> scoop search nvm
+		> scoop info --verbose nvm
+		> scoop install nvm 			// A node.js version management utility for Windows.
+		> scoop prefix nvm 				// Returns the path to the specified app
+		> scoop cat nvm 				// Show content of specified manifest.
+		> scoop home nvm 				// Opens the app homepage.
+
+		> nvm 
+		> nvm arch
+		> nvm current
+		> nvm version
+		> nvm on
+		> nvm list available
+		> nvm install 18.18.2
+		> nvm install 18.16.1
+		> nvm install 14.4.0
+		> nvm list
+
+		> nvm use 18.18.2
+		> node -v
+		> npm -v
+
+
+07. Google Chrome Web Browser Installation
+
+	> scoop search chrome
+	> scoop info --verbose googlechrome
+	> scoop install googlechrome
+	> scoop prefix googlechrome
+	> scoop cat googlechrome
+	> scoop home googlechrome
+
+
+08. TypeScript Compiler (TSC) Installation
+
+	- `TypeScript` is a language for application scale `JavaScript` development
+	- `TypeScript Transpiler` == `TypeScript Compiler` == `TSC`
+
+	- `Babel`: `ESNext` Transpiler - `ESNext` Source Code -> Transpile -> `ES5` Source Code (***)
+	- `TypeScript Transpiler`:   `TypeScript` Source Code -> Transpile -> `ES5` Source Code (***)
+
+	- TypeScript Compiler Installation With `npm` (Node.JS Package Manager):
+
+		> npm -v
+		> npm version
+
+		> npm
+		> npm -l
+
+		> npm search typescript
+		> npm view typescript
+
+		// typescript 패키지: 서버와 클라이언트로 동작하는 2개 프로그램 포함:
+		// (1) typescript compiler 이름은 패키지 이름과 달리 `tsc` 임. 		(***)
+		// (2) 즉 typescript compiler 와 client 라는 의미가 동시에 있음. 	(***)
+
+		> npm install --global typescript
+		> npm ls --global
+		> npm ls -g
+
+		> tsc -v
+		> tsc --vesion
+		> tsc
+
+
+09. `psutils ` Installation
+
+	- A collection of command line utilities written in PowerShell 
+	  proudly ignoring PowerShell Verb-Noun naming conventions.
+
+	> scoop search psutils
+	> scoop info --verbose psutils
+	> scoop install psutils
+	> scoop prefix psutils
+	> scoop cat psutils
+	> scoop home psutils
+
+
+10. `yarn` Installation
+
+	- Node.js dependency manager
+
+	> scoop search yarn
+	> scoop info --verbose yarn
+	> scoop install yarn
+	> scoop prefix yarn
+	> scoop cat yarn
+	> scoop home yarn
+
+
+11. TypeScript Compile(== Transpile) & Run
+
+	> touch hello.ts
+
+	> vi hello.ts
+
+		console.log('Hello, World!!!')
+
+	> tsc hello.ts 							// Compile -> 'hello.js' file 생성됨.
+	> node hello.js							// Run #1 - Only tsc
+
+	> rm hello.js
+	> node hello.ts 						// Run #2 - tsc & node
+
+	
+12. `ts-node` Installation
+
+	- TypeScript execution environment and REPL for node.js, with source map support
+
+	> npm search ts-node
+	> npm view ts-node
+
+	> npm install --global ts-node
+	
+	> ts-node -v
+	> ts-node hello.ts
+
+
+

@@ -1,0 +1,45 @@
+{
+  "name": "chap06",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node src",
+    
+    "06-1": "ts-node src/06-1",
+      "sample1": "ts-node src/06-1/sample1",
+      "sample2-1": "ts-node src/06-1/sample2-1",
+      "sample2-2": "ts-node src/06-1/sample2-2",
+      "sample3": "ts-node src/06-1/sample3",
+      "sample4-1": "ts-node src/06-1/sample4-1",
+      "sample4-2": "ts-node src/06-1/sample4-2",
+      "sample5-1": "ts-node src/06-1/sample5-1",
+      "sample5-2": "ts-node src/06-1/sample5-2",
+
+    "06-2": "ts-node src/06-2",
+      "sample6": "ts-node src/06-2/sample6",
+      "sample7": "ts-node src/06-2/sample7",
+      "sample8-1": "ts-node src/06-2/sample8-1",
+      "sample8-2": "ts-node src/06-2/sample8-2",
+      "sample9-1": "ts-node src/06-2/sample9-1",
+      "sample9-2": "ts-node src/06-2/sample9-2",
+      "sample10-1": "ts-node src/06-2/sample10-1",
+      "sample10-2": "ts-node src/06-2/sample10-2",
+      "sample11-1": "ts-node src/06-2/sample11-1",
+      "sample11-2": "ts-node src/06-2/sample11-2",
+      "sample11-3": "ts-node src/06-2/sample11-3",
+
+    "build": "tsc && node dist",
+    "clean": "rm -rf dist node_modules"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@types/node": "^20.9.0"
+  }
+}

@@ -1,0 +1,75 @@
+*************************************************************
+* Chapter 01-1. What is Typescript ?                        *
+*************************************************************
+
+1. 현재 3가지 종류의 Javascript.
+
+	(1) ES5(ECMAScript 5) 	- 웹브라우저에 동작하는 표준 자바스크립트
+	(2) ESNext 				- 2015년부터 매해 새로운 버전 발표
+	(3) Typescript 			- ESNext + 타입기능 추가
+
+
+2. ES5, EXNext, Typescript 간의 포함관계
+
+	(1) ES5 < (2) ESNext < (3) Typescript  (여기서, `A < B`는 B가 A를 포함 의미)
+
+	- ESNext : `ES5` 의 모든문법 포함
+	- Typescript : `ESNext` 의 모든문법 포함
+	- So `Typescript`로 개발하더라도, `타입기능`을 사용 안하면 == `ESNext` 나 마찬가지
+
+
+3. What is `ESNext` ?
+
+	- Javascript 공식표준은 `ECMAScript`(줄여서, `ES`).
+	- 2009년 발표된 공식표준 => `ES5`
+	- 2015년 발표된 공식표준 => `ES6` (* 큰 변화가 있었음)
+	- So `ES6` 이후 버전 통틀어, `ESNext` (의미: 새로운 자바스크립트) 라고 함.
+	- 2015년 ESNext 공식버전 표기법 변경됨 
+		a. ES6부터, 발표연도를 붙여서 표기 	=> ECMAScript 2015(줄여서, ES2015)
+		b. 1년 주기로 새로운 버전 발표 		=> 예: In 2019, ECMAScript 2019 (줄여서, ES2019)
+	- So `ESNext` 는 `ECMAScript 2015` (`ES2015`) ~  의미
+
+
+4. What makes Typescript ?
+
+	- Microsoft 가 개발하고 유지하는 Open Source Programming Language.
+	- `2012년 말` 처음 발표.
+	- Google 이 Angular Version 2 만들면서, Typescript 채택이후로 널리 알려짐.
+	- 리액트(React.js), 뷰(Vue.js) 조차 Typescript를 사용해 개발되고 있음.
+
+
+5. Javascript 에 타입기능이 있으면 좋은 이유
+
+	- 오늘날 SW는 상당히 복잡 -> 보통 여러 사람이나 팀이 협력해 하나의 제품 개발.
+	- 위와 같은 상황에서는 항상, 코드를 작성한 쪽과 코드를 사용하는 쪽 사이에 커뮤니케이션이 중요.
+	- 예:
+
+		(1) 코드 작성 쪽의 코드
+
+			function makePerson(name, age) {}
+
+		(2) 코드 사용 쪽의 코드 -> 사용시 실수로 오류발생
+
+			makePerson(23, "Jack")
+
+		(3) 만일 타입기능이 있었다면, 위 (2)의 실수 예방가능
+
+			function makePerson(name: string, age: number) {}
+
+	- Typescript `Compiler`는 문제의 원인을 정확히 알려줌.
+	- So 대규모 SW 개발 시, Javascript 보다, Typescript 선호.
+
+
+6. Transpiler (트랜스파일러)
+	
+	- `ESNext` Javascript Source --> Babel (= Transpiler) 통과 -> ES5 (ES2009) Javascript 코드로 변환.
+	- `Typescript` Source --> Typescript Compiler (줄여서, `TSC`) 통과 -> ES5 (ES2009) Javascript 코드로 변환.
+
+	- Transpiler 란?
+		(1) 어떤 `프로그램 언어`로 작성된 소스코드 -> 변환프로그램(= `Transpiler`) -> 다른 `프로그램 언어`로 된 소스코드.
+		(2) Text-based Source Code -> Binary Code로 변환해주는 `컴파일러(Compiler)`와 구분하기 위해 생긴 용어.
+
+	- Transpile & Compile 의 비교
+		a. '무엇인가를 다른 무엇으로 바꿔준다'라는 관점에서는 크게 차이가 없음
+		b. 요즘은 이 둘을 구분하지 않는 경향
+		c. So, Transpile == Compile

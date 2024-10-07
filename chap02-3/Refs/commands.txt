@@ -1,0 +1,508 @@
+========================================================
+* Step1. TypeScript Project 만들기
+========================================================
+
+	> mkdir chap02-3
+	> cd chap02-3
+
+	@ 1. Check npm runtime environment.
+	> npm doctor
+
+
+	@ 2-1. Check global packages for TypeScript Project.
+
+	@ If `typescript`, `ts-node`, `@types/node` *NOT* exists,
+	@ > npm i -g typescript ts-node @types/node 
+	@ > npm ls -g --depth=0
+
+	@ 2-2. Check local packages for TypeScript Project.
+	> npm i { -D | --save-dev } typescript ts-node @types/node
+	> npm ls --depth=0
+
+
+	@ 3. Make a `package.json` file.
+	> npm init --yes
+
+
+	@ 4. Configure scripts named "dev", "build", "clear"
+
+	  ...
+	  "scripts": {
+	    "dev": "ts-node src",
+	    "build": "tsc && node dist",
+	    "clear": "rm -rf dist node_modules"
+	  },
+	  ...
+
+	> npm run
+
+
+	@ 5. Make a `tsconfig.json` file.
+
+	> tsc --init
+
+	{
+		"compilerOptions": {
+			"module": "commonjs",						①
+			"esModuleInterop": true,					②
+			"target": "es5",							③
+			"moduleResolution": "node",					④
+			"outDir": "dist",							⑤
+			"baseUrl": ".",								⑥
+			"sourceMap": true,							⑦
+			"downlevelIteration": true,					⑧
+			"noImplicitAny": false,						⑨
+			"paths": { "*" : [ "node_modules/*" ] }		⑩
+		},
+
+		"include" : [ "src/**/*" ]						⑪
+	}
+
+
+	@ 6. Make sample `src/index.ts`.
+
+	> mkdir src
+	> echo console.log('chap02-3') > src/index.ts
+	
+	@ 7. 
+	> npm ls -g --depth=0|1|2|...
+	> npm ls --depth=0|1|2|...
+
+	> npm run
+
+	> npm run dev
+	> npm run build
+	> npm run clear
+
+
+========================================================
+* Step2. `tsconfig.json` keys
+========================================================
+
+----------------------------------
+① `module` Key
+----------------------------------
+
+	- Sets the `module system` for the program.
+	- See the Modules reference page for more information.
+	- You very likely want "nodenext" for modern node projects.
+	- Changing module affects `moduleResolution` which also has a reference page.
+
+	* Default: `CommonJS` if target is `ES3` or `ES5`; `ES6/ES2015` otherwise.							<--- ***
+	* Allowed: none, commonjs, amd, umd, system, es6/es2015, es2020, es2022, esnext, node16, nodenext	<--- ***
+
+
+----------------------------------
+② `esModuleInterop` Key
+----------------------------------
+
+	- Recommended.
+	- Default: `true` if module is `node16` or `nodenext`; `false` otherwise.	<--- ***
+	- Related: `allowSyntheticDefaultImport`
+
+	- By default (with `esModuleInterop` `false` or *NOT set*), 
+	  TypeScript treats `CommonJS`/`AMD`/`UMD` modules similar to `ES6` modules.
+	  In doing this, there are two parts in particular which turned out to be flawed assumptions:
+
+		(1) a namespace import like `import * as moment from "moment"` acts the same as `const moment = require("moment")`
+		(2) a default import like `import moment from "moment"` acts the same as `const moment = require("moment").default`
+
+	- This mis-match causes these two issues:
+
+		(1) the `ES6` modules spec states that a *namespace import* (`import * as x`) can only be an object, 
+		    by having TypeScript treating it the same as `= require("x")` 
+		    then TypeScript allowed for the import to be treated as a `function` and be *callable*.
+		    That’s not valid according to the spec.
+
+		(2) while accurate to the `ES6` modules spec, 
+			most libraries with `CommonJS/AMD/UMD` modules didn’t conform as strictly as TypeScript’s implementation.
+
+	- Turning on `esModuleInterop` will fix both of these problems in the code transpiled by TypeScript.
+	  The first changes the behavior in the compiler, 
+	  the second is fixed by two new helper functions which provide a shim to ensure compatibility in the emitted JavaScript:
+
+
+----------------------------------
+③ `target` Key
+----------------------------------
+
+	- Default: ES3
+	- Allowed: es3, es5, es6/es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, esnext
+
+	- Modern browsers support all `ES6` features, so `ES6` is a good choice.
+	  You might choose to set a lower target if your code is deployed to older environments, 
+	  or a higher target if your code is guaranteed to run in newer environments.
+
+	- The target setting changes which JS features are downleveled and which are left intact.
+	  For example, an arrow function () => this will be turned into an equivalent function expression
+	  if target is `ES5` or *lower*.
+
+	- Changing target also changes the default value of lib.
+	  You may “mix and match” target and lib settings as desired, but you could just set target for convenience.
+
+	- For developer platforms like Node, there are baselines for the target,
+	  depending on the type of platform and its version.
+	  You can find a set of community organized TSConfigs at tsconfig/bases, 
+	  which has configurations for common platforms and their versions.
+
+	- The special `ESNext` value refers to the highest version your version of TypeScript supports.
+	  This setting should be used with caution, since it doesn’t mean the same thing
+	  between different TypeScript versions and can make upgrades less predictable.
+
+
+----------------------------------
+④ `moduleResolution` Key
+----------------------------------
+
+	- Default: `Classic` if module is `AMD`, `UMD`, `System`, or `ES6/ES2015`; 
+			   `Matches` if module is `node16` or `nodenext`; `Node` otherwise.
+
+	- Allowed: classic, node10/node, node16, nodenext, bundler
+
+	- Specify the module resolution strategy:
+
+		(1) 'node16' or 'nodenext' for modern versions of Node.js. 
+
+		(2) Node.js v12 and later supports both ECMAScript `imports` and CommonJS `require`, 
+			which resolve using different algorithms.
+
+		(3) These `moduleResolution` values, when combined with the corresponding module values, 
+			picks the right algorithm for each resolution based on
+			whether Node.js will see an `import` or `require` in the output JavaScript code.
+
+		(4) 'node10' (previously called 'node') for Node.js versions older than v10, 
+			which only support CommonJS `require`.
+			You probably won’t need to use `node10` in modern code.
+
+		(5) 'bundler' for use with bundlers.
+			Like `node16` and `nodenext`, this mode supports `package.json` "imports" and "exports", 
+			but unlike the Node.js resolution modes, `bundler` never requires file extensions on relative paths in imports.
+
+		(6) 'classic' was used in TypeScript before the release of 1.6. 
+			`classic` should not be used.
+
+
+
+----------------------------------
+⑤ `outDir` Key
+----------------------------------
+
+	- If specified, `.js` (as well as `.d.ts`, `.js.map`, etc.) files will be emitted into this directory.
+
+	- The directory structure of the original source files is preserved; 
+	  see `rootDir` if the computed root is not what you intended.
+
+	- If not specified, `.js` files will be emitted in the same directory as the `.ts` files they were generated from:
+
+			$ tsc
+			example
+			├── index.js
+			└── index.ts
+
+	   	With a `tsconfig.json` like this:
+
+	   		{
+			  "compilerOptions": {
+			    "outDir": "dist"
+			  }
+			}
+
+		Running `tsc` with these settings moves the files into the specified dist folder:
+
+			$ tsc
+			example
+			├── dist
+			│   └── index.js
+			├── index.ts
+			└── tsconfig.json
+
+
+
+----------------------------------
+⑥ `baseUrl` Key
+----------------------------------
+
+	- Sets a base directory from which to resolve bare specifier module names.
+
+	  For example, in the directory structure:
+
+	  		project
+			├── ex.ts
+			├── hello
+			│   └── world.ts
+			└── tsconfig.json
+
+	  With "baseUrl": "./", 
+	  TypeScript will look for files starting at the same folder as the `tsconfig.json` :
+
+	  		import { helloWorld } from "hello/world";
+
+			console.log(helloWorld);
+
+	- This resolution has higher priority than lookups from `node_modules`.
+
+	- This feature was designed for use in conjunction with `AMD` module loaders in the browser, 
+	  and is not recommended in any other context. 
+
+	- As of TypeScript 4.1, `baseUrl` is no longer required to be set when using paths.
+
+
+
+----------------------------------
+⑦ `sourceMap` Key
+----------------------------------
+
+	- Enables the generation of `sourcemap` files.
+
+	- These files allow debuggers and other tools to display the original TypeScript source code
+	  when actually working with the emitted JavaScript files.
+
+	- Source map files are emitted as `.js.map` (or `.jsx.map`) files next to the corresponding `.js` output file.
+
+	- The `.js` files will in turn contain a `sourcemap` comment to indicate where the files are to external tools,
+
+	  for example:
+
+		  	// helloWorld.ts
+
+			export declare const helloWorld = "hi";
+
+	  Compiling with `sourceMap` set to `true` creates the following JavaScript file:
+
+	  		// helloWorld.js
+
+			"use strict";
+
+			Object.defineProperty(exports, "__esModule", { value: true });
+			exports.helloWorld = "hi";
+
+			//# sourceMappingURL=// helloWorld.js.map
+
+	  And this also generates this json map:
+
+	  		// helloWorld.js.map
+			{
+			  "version": 3,
+			  "file": "ex.js",
+			  "sourceRoot": "",
+			  "sources": ["../ex.ts"],
+			  "names": [],
+			  "mappings": ";;AAAa,QAAA,UAAU,GAAG,IAAI,CAAA"
+			}
+
+
+
+----------------------------------
+⑧ `downlevelIteration` Key
+----------------------------------
+
+	- Downleveling is TypeScript’s term for transpiling to an older version of JavaScript.
+
+	- This flag is to enable support for a more accurate implementation of 
+	  how modern JavaScript iterates through new concepts in older JavaScript runtimes.
+
+	- ECMAScript 6 added several new iteration primitives: 
+
+	  (1) the for / of loop (for (el of arr)), Array spread ([a, ...b]), argument spread (fn(...args)), and Symbol.iterator.
+	  (2) `downlevelIteration` allows for these iteration primitives to be used more accurately in `ES5` environments 
+	  	  if a `Symbol.iterator` implementation is present.
+
+	- Example: 
+
+	  Effects on for / of 
+
+		With this TypeScript code:
+
+			const str = "Hello!";
+
+			for (const s of str) {
+			  console.log(s);
+			}
+
+		Without `downlevelIteration` enabled, 
+		a for / of loop on any object is downleveled to a traditional for loop:
+
+			"use strict";
+
+			var str = "Hello!";
+
+			for (var _i = 0, str_1 = str; _i < str_1.length; _i++) {
+			    var s = str_1[_i];
+
+			    console.log(s);
+			}
+
+	- This is often what people expect, but it’s not 100% compliant with ECMAScript iteration protocol.
+	  Certain strings, such as emoji (😜), have a .length of 2 (or even more!), 
+	  but should iterate as 1 unit in a for-of loop. 
+
+	  See this blog post by Jonathan New for a longer explanation.
+
+	- When `downlevelIteration` is enabled, TypeScript will use a helper function that checks 
+	  for a `Symbol.iterator` implementation (either native or polyfill). 
+
+	  If this implementation is missing, you’ll fall back to index-based iteration.
+
+	- You can use `tslib` via `importHelpers` to reduce the amount of inline JavaScript too:
+
+	- Note: enabling `downlevelIteration` does not improve compliance 
+			if `Symbol.iterator` is not present in the runtime.
+
+		Example: Effects on Array Spreads
+
+		This is an array spread:
+
+			// Make a new array whose elements are 1 followed by the elements of arr2
+			const arr = [1, ...arr2];
+
+		Based on the description, it sounds easy to downlevel to `ES5`:
+
+			// The same, right?
+			const arr = [1].concat(arr2);
+
+
+	- However, this is observably different in certain rare cases.
+
+	  For example, if a source array is missing one or more items (contains a hole), 
+	  the `spread` syntax will replace each empty item with undefined, 
+	  whereas `.concat` will leave them intact.
+
+
+	  	// Make an array where the element at index 1 is missing
+		let arrayWithHole = ["a", , "c"];
+		let spread = [...arrayWithHole];
+
+		let concatenated = [].concat(arrayWithHole);
+
+		console.log(arrayWithHole);
+		// [ 'a', <1 empty item>, 'c' ]
+
+		console.log(spread);
+		// [ 'a', undefined, 'c' ]
+
+		console.log(concatenated);
+		// [ 'a', <1 empty item>, 'c' ]
+
+	- Just as with for / of, 
+	  `downlevelIteration` will use `Symbol.iterator` (if present) 
+	  to more accurately emulate `ES6` behavior.
+
+
+
+----------------------------------
+⑨ `noImplicitAny` Key
+----------------------------------
+
+	- In some cases where no type annotations are present, 
+	  TypeScript will fall back to a type of any for a variable when it cannot infer the type.
+
+	- This can cause some errors to be missed, 
+
+	  for example:
+
+		  	function fn(s) {
+			  // No error?
+			  console.log(s.subtr(3));
+			}
+
+			fn(42);
+
+	  Turning on `noImplicitAny`, 
+	  however TypeScript will issue an error whenever it would have inferred any:
+
+	  		function fn(s) {
+				// Parameter 's' implicitly has an 'any' type.
+			  	console.log(s.subtr(3));
+			}
+
+
+----------------------------------
+⑩ `paths` Key
+----------------------------------
+
+	- A series of entries which re-map imports to lookup locations 
+	  relative to the `baseUrl` if set, or to the `tsconfig` file itself otherwise.
+
+	  There is a larger coverage of `paths` in the handbook.
+
+	- paths lets you declare how TypeScript should resolve an import in your `require/imports`.
+
+		{
+
+		  "compilerOptions": {
+		    "paths": {
+		      "jquery": [ "./vendor/jquery/dist/jquery" ]
+		    }
+		  }
+
+		}
+
+	- This would allow you to be able to write import "jquery", 
+	  and get all of the correct typing locally.
+
+	  	{
+		  "compilerOptions": {
+
+		    "paths": {
+		        "app/*": ["./src/app/*"],
+		        "config/*": ["./src/app/_config/*"],
+		        "environment/*": ["./src/environments/*"],
+		        "shared/*": ["./src/app/_shared/*"],
+		        "helpers/*": ["./src/helpers/*"],
+		        "tests/*": ["./src/tests/*"]
+		    },
+
+		}
+
+	- In this case, you can tell the TypeScript file resolver to support a number of custom prefixes to find code.
+
+	- Note that this feature does not change how import paths are emitted by tsc, 
+	  so paths should only be used to inform TypeScript that another tool has this mapping 
+	  and will use it at runtime or when bundling.
+
+
+
+----------------------------------
+⑪ `include` Key
+----------------------------------
+
+	- Specifies an array of filenames or patterns to include in the program.
+
+	- These filenames are resolved relative to the directory containing the `tsconfig.json` file.
+
+		{
+		  "include": ["src/**/*", "tests/**/*"]
+		}
+
+	- Which would include:
+
+		.
+		├── scripts                ⨯
+		│   ├── lint.ts            ⨯
+		│   ├── update_deps.ts     ⨯
+		│   └── utils.ts           ⨯
+		├── src                    ✓
+		│   ├── client             ✓
+		│   │    ├── index.ts      ✓
+		│   │    └── utils.ts      ✓
+		│   ├── server             ✓
+		│   │    └── index.ts      ✓
+		├── tests                  ✓
+		│   ├── app.test.ts        ✓
+		│   ├── utils.ts           ✓
+		│   └── tests.d.ts         ✓
+		├── package.json
+		├── tsconfig.json
+		└── yarn.lock
+
+	- `include` and `exclude` support wildcard characters to make glob patterns:
+
+		(1) `*` matches zero or more characters (excluding directory separators)
+		(2) `?` matches any one character (excluding directory separators)
+		(3) `**/` matches any directory nested to any level
+
+	- If the last path segment in a pattern does not contain a file extension or wildcard character, 
+	  then it is treated as a directory, and files with supported extensions inside that directory are included
+	  (e.g. .ts, .tsx, and .d.ts by default, with .js and .jsx if allowJs is set to true).
+
+

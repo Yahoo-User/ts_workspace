@@ -1,0 +1,37 @@
+{
+  "name": "chap08",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node src",
+    "08-1": "ts-node src/08-1",
+    "08-2": "ts-node src/08-2",
+    "sample1": "ts-node src/08-2/sample1",
+    "sample2": "ts-node src/08-2/sample2",
+    "sample3": "ts-node src/08-2/sample3",
+    "08-3": "ts-node src/08-3",
+    "sample4": "ts-node src/08-3/sample4",
+    "sample5": "ts-node src/08-3/sample5",
+    "sample6": "ts-node src/08-3/sample6",
+    "08-4": "ts-node src/08-4",
+    "sample7-1": "ts-node src/08-4/sample7-1",
+    "sample7-2": "ts-node src/08-4/sample7-2",
+    "sample8-1": "ts-node src/08-4/sample8-1",
+    "sample8-2": "ts-node src/08-4/sample8-2",
+    "sample9": "ts-node src/08-4/sample9",
+    "sample10": "ts-node src/08-4/sample10",
+    "sample11-1": "ts-node src/08-4/sample11-1",
+    "sample11-2": "ts-node src/08-4/sample11-2",
+    "build": "tsc && node dist",
+    "clean": "rm -rf dist node_modules"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.9.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}

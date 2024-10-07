@@ -1,0 +1,259 @@
+*************************************************************
+* Chapter 01-2. Typescript의 주요문법                       *
+*************************************************************
+
+1. Typescript 는 ESNext의 문법지원.
+
+2. Typescript 다루려면, `ESNext` 문법을 알아야 함.
+
+3. Typescript 만의 고유한 문법도 있음.
+
+
+4. ESNext 주요문법
+
+	(1) 비구조화 할당(destructuring assingment)
+
+		- 객체, 배열, 변수에 적용가능 (***)
+
+		- Ex)
+
+			let person = { name: "Jane", age: 23 }	// 객체
+
+			// person 객체의 name, age 속성을 `비구조화 할당`을 통해, 각 멤버를 얻음
+			let { name, age }  = person				// 객체의 비구조화 할당 (***)
+
+
+			let arr = [ 1, 2, 3, 4 ]				// 배열
+
+			// 배열에 비구조화 할당 : 배열의 첫번째 원소와 나머지 원소를 비구조화 할당을 통해 쉽게 분리
+			let [ head, ...rest ] = arr 			// 배열의 비구조화 할당 (***)
+
+
+			let a = 1, b = 2
+
+			// 두 변수 a, b를 서로 교환(Swap)하는데, 비구조화 할당 적용
+			let [ a, b ] = [ b, a ]
+
+
+	(2) 화살표 함수(arrow Function)
+
+		- `Javascript` 에서 함수 선언시 -> `function` 키워드 사용.
+
+		- `ESNext` 에서는, `function` 키워드 외에 화살표(`=>`)로 함수선언 가능. (***)
+
+		- 화살표(`=>`)로 선언된 함수. (***)
+
+		- Ex)
+
+			function add(a, b) { return a + b }		// `function` 키워드로 함수선언
+
+			const add2 = (a, b) => a + b 			// 화살표 함수(arrow function) 선언
+
+		- 코드는 되도록 간결하게 작성해야 가독성 높음.
+		- Arrow Function (화살표 함수)는 function 키워드 방식보다, 코드를 간결하게 만들 수 있음. (***)
+
+
+	(3) 클래스(class)
+
+		- `ESNext` 에서 제공.
+		- 객체지향 프로그래밍 (OOP) 지원.
+		- 객체지향 프로그래밍 (OOP) 의 지원 3가지 요소 :
+
+			`Encapsulation(캡슐화)` + `Inheritance(상속)` + Polymorphism(다형성)`
+
+		- Ex)
+				abstract class Animal {
+					constructor(public name?: string, public age?: number) {}
+					abstract say(): string
+				} // end class
+
+
+				class Cat extends Animal {
+					say() { return "야옹" }
+				} // end class
+
+
+				class Dog extends Animal {
+					say() { return "멍멍" }
+				} // end class
+
+
+				let animals: Animal[] = [ new Cat("야옹", 2), new Dog("멍멍이", 3) ]
+				let sounds = animals.map( animal => animal.say() ) 	// 배열 [ "야옹", "멍멍" ]
+
+		- `ES5(ES2009)`는, 위와 같은 형태로 코드작성 불가 (***)
+
+
+	(4) 모듈(module)
+
+		- 코드를 여러 개 파일로 분할해서 작성가능하게 해 줌. (***)
+
+		- `변수`, `함수`, `클래스` 등에 `export` 키워드 사용해 `모듈(module)`로 만들면,
+		  다른 파일에서도 이들(`export` 키워드가 붙은 변수/함수/클래스 등) 사용가능. (***)
+
+		- `import `키워드 : `export` 키워드로 만든 모듈(module)을 가져와서 사용하고 싶을 때 사용. (***)
+
+		- `ESNext` (ES2015 ~)는 파일을 분할 해 구현할 수 있게, 모듈기능 제공. (`ES5`는 불가) (***)
+
+		- Ex)
+
+				import * as fs from 'fs'
+
+				export function writeFile(filepath: string, content: any) {
+					fs.writeFile(filepath, content, (err) => {
+						err & console.log("error", err)
+					}) // .writeFile
+				} // writeFile
+
+
+	(5) 생성기(genertor)
+
+		- Typescript, Python, PHP 언어에서는, `yield` 키워드 제공. (***)
+
+		- `yield` 문 : `반복자`를 의미하는, `반복기`(iterator) 생성할 때 사용. (***)
+
+		- `반복기` (iterator)  : 독립적으로 존재하지 않고, `반복기 제공자` (iterable) 통해 획득. (***)
+
+		- `생성기` (generator) : `yield` 문 이용해, `반복기`(iterator)를 만들어 내는 `반복기 제공자`(iterable) 의미. (***)
+
+			a. `function` 키워드에 `*` 기호를 결합한 `function*` + `yield` 키워드 이용해 생성. (***)
+			b. In `typescript`, `yield` 키워드는 *반드시* `function*` 로 만들어진 함수 내부에서만 사용가능. (***)
+			c. ex)
+
+				function* gen() {		// `function*` => `생성기` (generator) 라고 함.
+
+					// `yield`가 수행되면, 프로그램 실행이 여기서 `일시정지` 하고 점프해서, 아래 for-of문 실행. (***)
+					// 아래 for-of 문 실행이 끝나면, 다시 이 `yield`문 실행. (***)
+					// 위 과정을 배열 [1,2]의 원소를 모두 `순회`(traverse) 할 때까지 반복 (***)
+					// 이 처럼, `yield` 키워드는 특별한 실행흐름을 보여줌.
+
+					yield [ 1, 2 ]		// `생성기`(generator -> function*) 덕분에, `yield` 키워드 사용가능. (***)
+
+				} // gen
+
+				for(let value of gen()) { console.log(value) }	// 1, 2
+
+
+	(6) Promise + async / await 구문
+
+		- `ES5` (ES2009)로, `비동기 콜백함수` (asynchronous callback function) 구현하려면, 코드가 상당히 복잡하고 번거로워짐. (***)
+		  이 때문에, `콜백지옥` (callback hell)이라는 표현이 있을 정도임.
+
+		- `Promise`
+			a. 웹브라우 + Node.js 에서 *모두* 제공하는 기본타입. (***)
+			b. `비동기 콜백함수`를 쉽게 구현할 목적으로 만들어짐. (***)
+
+		- `ESNext`는 C# v4.5 의 async/await 구문을 차용하여, 
+		  여러 개의 Promise 호출을 결합한, 좀 더 복잡한 형태의 코드를 간결하게 구현할 수 있게 함.
+
+		- Ex)
+
+			// `async`: `함수 수정자` (function modifier)
+			// `async` 함수 수정자를 사용한 함수는, 본문에서 `await` 키워드 사용가능. (***)
+
+			`async`	function get() {							// 배열 [1,2,3]의 각 원소를 `Promise` 형태로 반환 (***)
+				let values = []									// Array
+
+				// `await` : `Promise` 객체를 `resolve` (해소) 해줌. (***)
+
+				values.push( `await` `Promise`.resolve(1) )		// `Promise` 객체의 resolve된 값을 배열의 원소로 넣음.
+				values.push( `await` `Promise`.resolve(2) )		// `Promise` 객체의 resolve된 값을 배열의 원소로 넣음.
+				values.push( `await` `Promise`.resolve(3) )		// `Promise` 객체의 resolve된 값을 배열의 원소로 넣음.
+
+				return values
+			} // get
+
+			get().`then`( values => console.log(values) )	// *** : [1, 2, 3]
+
+		- get() 함수가 반환한 배열의 각 Promise 객체는, `then` 메소드를 호출해, 실제값을 얻을 수 있음
+
+
+5. Typescript 고유문법
+
+	(1) `타입주석` (Type Annotation)과 `타입추론` (Type Inference)
+
+		- Ex1) 
+				// 변수 n 뒤에 `콜론(:) + 타입` 있는데, 이를 `타입주석`(Type Annotation) 이라 함. (***)
+				let n : number = 1
+
+		- ex2)
+				// In `Typescript`, `타입주석`(Type Annotation) 생략가능. (***)
+				// 변수의 `타입주석` (Type Annotation)이 생략되면, Rvalue의 값을 분석하여, Lvalue 변수타입을 결정하는데,
+				// 이를 `타입추론` (Type Inference) 라고 함. (***)
+				let m = 2
+
+		- Typescript의 `타입추론`(Type Inference) 기능은, 자바스크립트 소스코드와 호환성을 보장하는데 큰 역할 수행. (***)
+
+		- `타입추론` (Type Inference) 덕분에, Javascript로 작성된 '.js' 파일을 확장자만, '.ts'로 바꾸면,
+		  Typescript 환경에서도 바로 동작가능. (***)
+
+
+	(2) 인터페이스 (interface)
+
+		- Ex)
+
+			// 규약정의: 필수속성으로 name (string), 선택속성으로 age (number) 정의. (***)
+			interface Person {
+				name: string,
+				age?: number
+			} // end interface
+
+			// Person 인터페이스의 필수속성(name: string) 만 구현한 객체 대입. (***)
+			let person: Person = { name: "Yoseph" }
+
+
+	(3) 튜플 (tuple)
+
+		- Python 같은 몇몇 언어에 있는 타입.
+		- 물리적으로, 배열과 같음. (***)
+		- 다만,
+			a. 배열(array)  : 모든 원소의 타입이 같음.
+			b. `튜플`(tuple): 모든 원소의 타입이 같지는 않음. (***)
+
+		- Ex)
+
+			let numberArr: number[] = [ 1, 2, 3 ]						// Array
+			let tuple: [ boolean, number, string ] = [ true, 1, "OK" ]	// Tuple (***)
+
+
+	(4) 제네릭 타입 (generic type)
+
+		- 다양한 타입을 한꺼번에 취급할 수 있게 해줌.
+		- Ex)
+
+			class Container<T> {
+				constructor(public value: T) {}
+			} // end class
+
+
+			// `제네릭타입` (Generic Type) : 
+			//		Container<number>, Container<string>, Container<number[]>, Container<boolean> 처럼,
+			//  	여러 타입을 대상으로 동작할 수 있음.
+
+			let numberContainer: Container<number> = new Container<number>(1);
+			let stringContainer: Container<string> = new Container<string>("Hello World");
+
+
+	(5) 대수타입 (ADT == Algebra Data Type)
+
+		- `추상 데이터 타입` (Abstract Data Type) 의미. (***)
+
+		- `대수타입` (Algebra Data Type)이란 의미로도 사용. (***)
+
+		- *다른* 자료형의 *값*을 가지는 자료형 의미. (***)
+
+		- 크게 2가지가 있음:
+			a. `합집합 타입` (union OR sum type) 				: `|` 기호 사용. (***)
+			b. `교집합 타입` (intersection OR product type) 	: `&` 기호 사용. (***)
+
+		- 위 기호를 사용하여, 여러 타입을 결합하여 새로운 타입을 만들 수 있음. (***)
+
+		- Ex)
+
+			// `대수타입` 선언
+			type NumberOrString 	= number | string 		// `합집합` 타입 예. (***)
+			type AnimalAndPerson 	= Animal & Person		// `교집합` 타입 예. (***)
+
+
+
+

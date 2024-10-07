@@ -1,0 +1,46 @@
+{
+  "name": "chap07",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node src",
+
+    "07-1": "ts-node src/07-1",
+      "sample1": "ts-node src/07-1/sample1",
+      "sample2-1": "ts-node src/07-1/sample2-1",
+      "sample2-2": "ts-node src/07-1/sample2-2",
+      "sample3": "ts-node src/07-1/sample3",
+      "sample4": "ts-node src/07-1/sample4",
+      "sample5": "ts-node src/07-1/sample5",
+
+    "07-2": "ts-node src/07-2",
+      "sample6-1": "ts-node src/07-2/sample6-1",
+      "sample6-2": "ts-node src/07-2/sample6-2",
+      "sample7": "ts-node src/07-2/sample7",
+      "sample8": "ts-node src/07-2/sample8",
+      "sample9": "ts-node src/07-2/sample9",
+      "sample10": "ts-node src/07-2/sample10",
+      "sample11": "ts-node src/07-2/sample11",
+
+    "07-3": "ts-node src/07-3",
+      "sample12": "ts-node src/07-3/sample12",
+      "sample13-1": "ts-node src/07-3/sample13-1",
+      "sample13-2": "ts-node src/07-3/sample13-2",
+      "sample14": "ts-node src/07-3/sample14",
+      "sample15": "ts-node src/07-3/sample15",
+      "sample16": "ts-node src/07-3/sample16",
+      "sample17": "ts-node src/07-3/sample17",
+
+    "build": "tsc && node dist",
+    "clean": "rm -rf dist node_modules && npm ls --depth=0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.9.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "name": "chap03",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev"    : "ts-node src",
+
+    "sample1": "ts-node src/03-1/sample1",
+    "sample2": "ts-node src/03-1/sample2",
+    "sample3": "ts-node src/03-1/sample3",
+    "sample4": "ts-node src/03-1/sample4",
+    "sample5": "ts-node src/03-1/sample5",
+    "sample6": "ts-node src/03-1/sample6",
+    "sample7": "ts-node src/03-2/sample7",
+    "sample8": "ts-node src/03-2/sample8",
+    "sample9": "ts-node src/03-2/sample9",
+    "sample10": "ts-node src/03-2/sample10",
+    "sample11": "ts-node src/03-3/sample11",
+    "sample12": "ts-node src/03-3/sample12",
+    "sample13": "ts-node src/03-3/sample13",
+    "sample14": "ts-node src/03-3/sample14",
+    "sample15": "ts-node src/03-3/sample15",
+    "sample16": "ts-node src/03-3/sample16",
+    "sample17-1": "ts-node src/03-4/sample17-1",
+    "sample17-2": "ts-node src/03-4/sample17-2",
+    "sample17-3": "ts-node src/03-4/sample17-3",
+    "sample17-4": "ts-node src/03-4/sample17-4",
+    "sample18": "ts-node src/03-4/sample18",
+    "sample19": "ts-node src/03-4/sample19",
+    "sample20": "ts-node src/03-5/sample20",
+    "sample21-1": "ts-node src/03-5/sample21-1",
+    "sample21-2": "ts-node src/03-5/sample21-2",
+
+    "build": "tsc && node dist",
+    
+    "clean": "rm -rf dist node_modules"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@types/node": "^20.8.10"
+  }
+}

@@ -1,0 +1,150 @@
+========================================================
+* Step1. Check Latest `Node.js` LTS Version
+========================================================
+
+@ Open Web-Site Of The Specified Package In Web Browser 
+scoop home nodejs
+
+
+========================================================
+* Step2. Install Latest `Node.js` LTS Using `nvm`
+========================================================
+
+nvm list
+
+----------------------
+
+@ Install Node.js `Iron`
+@ nvm install 20.9.0
+@ nvm use 20.9.0
+
+----------------------
+
+@ Install Node.js `Fermium`
+nvm install 14.21.3
+nvm use 14.21.3
+
+----------------------
+
+nvm list
+
+
+========================================================
+* Step3. Check Node.js & npm version, npm ping registory
+========================================================
+
+node -v & npm -v
+
+npm ping
+npm ping registry
+
+
+========================================================
+* Step4. Update `npm`
+========================================================
+
+@ Update npm Into The Latest Version
+@ npm update -g npm
+@ npm -v
+
+
+========================================================
+* Step5. Check `npm` Environment
+========================================================
+
+@ Usage: npm doctor [ping] [registry] [versions] [environment] [permissions] [cache]
+npm doctor
+
+
+========================================================
+* Step6. List `npm` Installed Packages
+========================================================
+
+@ -g == --global
+
+npm list --global
+npm ls --global
+npm ls -g --depth=0|1|2
+
+
+========================================================
+* Step7. Search and View `typescript` Package
+========================================================
+
+npm search typescript
+
+@ Display Details of the specified package
+npm view typescript
+
+
+========================================================
+* Step8. Search and View `ts-node` Package
+========================================================
+
+npm search ts-node
+
+@ Display Details of the specified package
+npm view ts-node
+
+
+========================================================
+* Step9. Install `typescript`, `ts-node`, `@types/node`
+========================================================
+
+@ -g == --global
+@ Install below packages in the `global` area
+
+----------------------
+
+npm install -g typescript
+npm install -g ts-node
+npm install -g @types/node
+
+----------------------
+
+tsc -v & ntsc -v & ts-node -v
+
+
+========================================================
+* Step11. List `npm` Installed Packages
+========================================================
+
+npm ls -g
+npm ls -g --depth=0|1|2|3|...
+
+
+========================================================
+* Step10. Compile TypeScript Source and Run With `tsc` and `node`
+========================================================
+
+@ Transpile (= Compile) : hello.ts -> hello.js
+tsc hello.ts
+
+@ Run transpiled `.js` file
+node hello.js
+
+del hello.js
+
+
+========================================================
+* Step11. Compile `TypeScript` Source Using `ntsc` and Run Using `node`
+========================================================
+
+@ Transpile (= Compile) : hello.ts -> hello.js
+ntsc hello.ts
+
+@ Run transpiled `.js` file
+node hello.js
+
+del hello.js
+
+
+========================================================
+* Step12. Compile & Run `TypeScript` Source using `ts-node` Without making `.js` file
+========================================================
+
+@ 1st. method
+ts-node hello.ts
+
+@ 2nd. method
+node hello.ts

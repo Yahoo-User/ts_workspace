@@ -1,0 +1,52 @@
+const MAX_AGE = 100
+
+
+export
+interface IPerson {
+    name: string
+    age: number
+} // end interface
+
+
+class Person implements IPerson {
+
+    // *** : 'readonly' type modifier is only permitted on `array` and `tuple` literal types.
+    constructor(public name: string, public age: number) {
+        console.debug(`Person::constructor(${name}, ${age}) invoked.`)
+        console.log(`\t- this.name: ${this.name}, this.age: ${this.age}`)
+    } // constructor
+
+} // end class
+
+
+function makeRandomNumber(max: number = MAX_AGE): number {
+    console.debug(`makeRandomNumber(${max}) invoked.`)
+    return Math.ceil( Math.random() * max )
+} // makeRandomNumber
+
+
+export
+const makePerson = (name: string, age: number = makeRandomNumber()): IPerson => 
+                    // ( { name: name, age: age } )         // OK
+                    // ( { name, age } )                    // OK
+                    {                                    // OK
+                        console.debug(`makePerson(${name}, ${age}) invoked.`)
+                        return { name, age }
+                    } // makePerson
+
+
+const testMakePerson = (): void => {
+    console.debug("testMakePerson() invoked.")
+
+    let trinity: IPerson = makePerson("Trinity")
+    let yoseph: IPerson = makePerson("Yoseph")
+
+    console.log(trinity, yoseph)
+} // testMakePerson
+
+
+testMakePerson()
+
+
+
+

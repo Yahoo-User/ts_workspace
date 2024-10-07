@@ -1,0 +1,239 @@
+*************************************************************
+* Chapter 02-1. TypeScript Project 만들기                   *
+*************************************************************
+
+목표1. TypeScript Project 개발 방법
+
+
+01. Node.js project 생성후, 개발언어를 TypeScript로 설정하는 방식으로 진행
+
+	a. Node.js project 디렉토리를 하나 만들고
+	b. 이 디렉토리에 `package.json` 파일생성으로 시작
+	c. `package.json` : 아래 명령 실행하여 생성
+
+		> npm init 
+		> npm init -y
+		> npm init --y
+		> npm init --yes
+
+		- Ex)
+
+			> mkdir ch02-1
+			> cd ch02-1
+			> npm init -y
+
+
+02. `package.json` 파일 (***)
+
+	a. `Node.js` 에 의해 관리되는 패키지 관리파일.
+	b. 프로젝트 정보와 관련된 모든 패키지 정보 기록.
+	c. 이 파일 이용해, 프로젝트를 개발하고 실행하는데 필요한, `패키지 관리` 가능.
+
+
+03. 프로젝트 *생성자* 관점에서, 패키지 설치하기 										<--- ***
+
+	A. `package.json` 파일 생성 후, 프로젝트 구현에 필요한 다양한 패키지를, 
+	   `npm install` OR `npm i` 명령으로 설치.
+
+	B. 패키지 설치 명령에는 중요한 2가지 옵션이 있음:
+
+		(1) `npm install [ --save | -S ] <설치할 패키지명> 								<--- ***
+			a. 프로젝트 *실행* 할 때 필요한 패키지 설치.
+			b. 설치한 패키지 정보가 `package.json` 파일의 `dependencies` 항목에 등록.
+
+		(2) `npm install { --save-dev | -D } <설치할 패키지명>							<--- ***
+			a. 프로젝트 *개발할 때에만*, 필요한 패키지 설치.
+			b. 설치한 패키지 정보가 `package.json` 파일의 `devDependencies` 항목에 등록.
+			c. 옵션 미지정시 *기본(default)* 옵션.
+
+	C. TypeScript Project 는 보통, `typescript` 와 `ts-node` 패키지 설치. 				<--- ***
+		- 이 두 패키지를 이전 단계에서, `npm i -g` 옵션으로 전역(global)으로 설치했지만,
+		- 이 프로젝트를 전달받아서 이용하는 다른 개발자의 PC에는, 위 a의 두 패키지가 전역(global)에 설치안되어 있을 수 있음.
+		- 이를 고려하여, 아래와 같이, 위 두 패키지를 -D(= --save-dev) 옵션(*개발용* 패키지)으로 설치하여,
+	  	  `package.json` 에 등록(`devDependencies` 항목에)하는 것이 좋음.
+
+		  	 > npm install --save-dev typescript ts-node 								<--- ***
+
+		  	 	OR
+
+		  	 > npm i -D typescript ts-node 												<--- ***
+
+	  d. `node_modules` directory 아래에서, 각 패키지 디렉토리에서 확인가능.			<--- ***
+
+
+04. TypeScript 는 기본적으로, `ESNext` 자바스크립트 문법을 포함하고 있지만, 자바스크립트와는 완전히 다른 언어.
+
+	A. With `JavaScript` Compiler,
+
+		@ Arrow Function
+		@ No `Type Annotation` found at all.
+
+		a => a + 1 				// OK
+
+	B. With `TypeScript` Compiler (Transpiler)
+
+		@ Arrow Function
+		@ 타입이 *명시적으로* 설정(`Type Annotation`) 되어야만, 
+		  문법에 맞게 작성되었는지 검증해 코드를 작동시킬 수 있음
+
+		(a: number) => a + 1 	// OK
+
+
+05. 위 04 때문에, 
+
+	a. JavaScript로 개발된 `chance`, `ramda` 같은 라이브러리들은 추가로, 
+	   `@types/chance`, `@types/ramda` 같은 *타입라이브러리* 들을 함께 제공해야 함.		<--- ***
+
+	b. `@types/`가 앞에 붙는 *타입라이브러리* 들은, 항상 `index.d.ts` 이름의 파일을 가져야 함.
+
+	c. TypeScript Compiler(= Transpiler)는, 이 `index.d.ts` 파일의 내용을 바탕으로, 
+	   `chance`, `ramda` 같은 라이브러리가 제공하는 함수들을 *올바르게* 사용했는지 *검증* 수행.
+
+	d. TypeScript 또한 웹브라우저나 Node.JS가 기본으로 제공하는 타입들의 존재도 그냥 알지는 못함.
+
+		예) `Promise` 같은 타입을 사용하려면, `@types/node` 라는 패키지를 설치해야 함.
+
+	e. 따라서 터미널에서 아래 명령을 통해, `@types/node` 패키지 (= 타입 라이브러리) 설치.
+
+		@ `Node.JS`에 대한 *타입 라이브러리* 인 `@types/node` 패키지를 *개발용* 으로 설치
+
+		> npm i { -D | --save-dev } @types/node 										<--- ***
+
+		> npm ls
+		> npm ls -g --depth=0|1|2|...
+
+		> tsc -v & ts-node -v
+
+	f. `node_modules` directory 아래에서, 각 패키지 디렉토리 확인가능.					<--- ***
+
+
+06. 프로젝트 *이용자* 관점에서, 패키지 설치하기 										<--- ***
+
+	a. TypeScript Project 를 만드는 사람과 이를 이용하는 사람은 얼마든지 다를 수 있음.
+	b. 마찬가지로, Project를 만드는 과정과 이용하는 과정도 다름.
+	c. Project 를 만드는 과정에서 패키지를 설치하면, 자연스럽게 Project 폴더 아래에 `node_modules` 라는
+	   디렉토리가 생성되고, 여기 아래에 각 패키지가 설치됨.
+	d. 보통 Project 구현하면서 여러 패키지를 설치하게 됨으로, `node_modules` 디렉토리 크기가 매우 커짐.
+	f. So 다른 사람에게 Project를 전달할 때는, `node_modules` 디렉토리를 모두 삭제하고 전달.
+	g. 따라서, 다른 사람이 작성한 Project를 *전달받아* 이용할 때에는, 
+	   가장 먼저 `package.json` 파일이 있는 디렉토리(= Project 폴더)에서 다음 명령을 실행해야 함. 	<--- ***
+
+	  	> npm i
+
+
+07. `tsconfig.json` 파일 만들기
+
+	a. TypeScript Project는, TypeScript Compiler 설정파일인 `tsconfig.json` 파일이 있어야 함.		<--- ***
+	b. 이 파일은 아래의 명령으로 생성가능:
+
+		> tsc --init
+
+	c. 기본적으로, 생성된 `tsconfig.json` 파일을 열어보면, 실제 개발하는데 필요한 많은 옵션이 비활성화 되어있음.
+
+	d. 보통, Project 에 필요한 옵션만 설정해서 간략하게 사용.										<--- ***
+
+		* Default `tsconfig.json` Options:
+
+		{
+			"compilerOptions": {
+				"module": "commonjs",						①
+				"esModuleInterop": true,					②
+				"target": "es5",							③
+				"moduleResolution": "node",					④
+				"outDir": "dist",							⑤
+				"baseUrl": ".",								⑥
+				"sourceMap": true,							⑦
+				"downlevelIteration": true,					⑧
+				"noImplicitAny": false,						⑨
+				"paths": { "*" : [ "node_modules/*" ] }		⑩
+			},
+
+			"include" : [ "src/**/*" ]						⑪
+		}
+
+
+08. `src` Directory & Source File 만들기
+
+	a. `tsconfig.json` file 에서, ⑪ 번 항목의 의미는, `./src`와 `./src/utils` directories에,
+	   이 Project 의 모든 TypeScript 소스파일이 있다는 뜻. 											<--- ***
+
+	b. 아래 명령으로, `src/utils` directory 생성.
+
+		> cd chap02-1
+
+		> mkdir -p src/utils
+
+	c. 각 디렉토리에 실습에 필요한 소스파일 생성
+
+		> touch src/index.ts src/utils/makePerson.ts
+
+
+09. 지금까지 생성된 TypeScript Project Directory 구조는 아래와 같음:
+
+	chap02-1/
+			node_modules/
+
+			src/
+				index.ts
+
+				utils/
+					 makePerson.ts
+
+			package-lock.json
+			package.json
+			tsconfig.json
+
+
+10. 시작 소스파일명을 `index.ts`로 하는 이유
+
+	a. `node`나 `ts-node`로 소스파일을 실행하려면, 아래와 같이 사용.
+
+		> node ./src/index.ts
+		> ts-node ./src/index.ts
+
+	b. 하지만, 실행소스파일명이 `index.ts` 이면, 소스파일명 생략가능.							<--- ***
+
+		> node ./src
+		> ts-node ./src
+
+	c. 이 `index.ts` 소스파일을, 해당 프로젝트의 *시작함수( 또는 엔트리 함수)* 라고 합니다. 	<--- ***
+
+	d. Project 의 *시작함수*가 있는 소스파일명은, 보통 `index.ts` 로 짓습니다. 					<--- ***
+
+
+11. `package.json` 파일의 수정
+
+	a. TypeScript Project 를 *개발* 할 때에는, `ts-node`를 사용하여 개발.						<--- ***
+
+	b. 개발이 *완료* 되면, TypeScript 소스코드 -> `ES5` JavaScript 소스코드로 변환하여, 
+	   `node`로 실행해야 합니다.																<--- ***
+
+	c. 이를 위해, `package.json` 파일의 `scripts` 항목에, `dev`와 `build` 명령추가.				<--- ***
+
+		{
+			...
+
+			"scripts": {
+				// 개발 중, src 디렉토리에 있는 `index.ts` 파일 실행용도로 사용.
+				"dev"	: "ts-node src",
+
+				// 개발 완료후, 프로그램 배포하기 위해, `dist` 디렉토리에 `ES5` JavaScript 소스파일 만들 때 사용.
+				"build"	: "tsc && node dist"
+			},
+
+			...
+		}
+
+	d. 위 `package.json` 의 "scripts" 항목에 추가한 명령들은, "npm run <등록된명령>" 형태로 사용.
+
+	e. 터미널에서, 아래 명령을 실행해, src 디렉토리에 있는 `index.ts` 파일을 컴파일하고 실행.	<--- ***
+
+		> npm run dev
+
+	f. 터미널에서, 아래 명령을 실행해, dist 디렉토리에, `ES5` 자바스크립트 파일 생성.			<--- ***
+
+		> npm run build
+
+
+12. 사실 대부분의 TypeScript Project는 위와같은 과정을 거쳐 만들어지므로,
+	프로젝트를 만들고 설정하는 작업에 익숙해져야 함.											<--- ***

@@ -1,0 +1,168 @@
+========================================================
+* Step1. Make a `Node.JS` Project Directory
+========================================================
+
+	> mkdir chap02-1
+	> cd chap02-1
+
+
+========================================================
+* Step2. Create a `package.json` file using `npm`
+========================================================
+
+-----------------------------
+@ 1st. method - `Non-Interactive` Method
+-----------------------------
+
+	> npm init -y
+	> npm init --y
+	> npm init --yes
+
+-----------------------------
+@ 2nd. method - `Interactive` Method
+-----------------------------
+
+	> npm init
+
+
+========================================================
+* Step3-1. Project *생성자* 관점에서 Packages 설치하기
+========================================================
+
+	> npm ls -g --depth=0
+
+	> npm i { -D | --save-dev } typescript ntypescript ts-node @types/node
+	> npm ls
+
+	> tsc -v & ntsc -v & ts-node -v
+
+
+========================================================
+* Step3-2. Project *이용자* 관점에서 Packages 설치하기
+========================================================
+
+	> npm i
+
+
+========================================================
+* Step4. TypeScript Compiler 설정파일 생성
+========================================================
+
+	> tsc --init
+
+		OR
+
+	> ntsc --init
+
+
+========================================================
+* Step5. TypeScript Compiler 설정옵션 구성하기
+========================================================
+
+	- Default `tsconfig.json` Options:
+
+	{
+		"compilerOptions": {
+			"module": "commonjs",						①
+			"esModuleInterop": true,					②
+			"target": "es5",							③
+			"moduleResolution": "node",					④
+			"outDir": "dist",							⑤
+			"baseUrl": ".",								⑥
+			"sourceMap": true,							⑦
+			"downlevelIteration": true,					⑧
+			"noImplicityAny": false,					⑨
+			"paths": { "*" : [ "node_modules/*" ] }		⑩
+		},
+
+		"include" : [ "src/**/*" ]						⑪
+	}
+
+
+========================================================
+* Step6. `src` directory & source file 만들기
+========================================================
+
+	> cd chap02-1
+
+	> mkdir -p src/utils
+
+	> touch src/index.ts src/utils/makePerson.ts
+
+	> tree .
+
+
+========================================================
+* Step7. TypeScript Source Code 실행하기
+========================================================
+
+	> cd chap02-1
+
+	> ts-node src/index.ts
+
+		OR
+
+	> ts-node src
+
+
+========================================================
+* Step8. `package.json` 파일에 실행 scripts 설정
+========================================================
+
+	> cd chap02-1
+
+	> vi package.json
+
+		{
+			...
+
+			"scripts": {
+				// 개발 중, src 디렉토리에 있는 `index.ts` 파일 실행용도로 사용.
+				"dev"	: "ts-node src",
+
+				// 개발 완료후, 프로그램 배포하기 위해, `dist` 디렉토리에 `ES5` JavaScript 소스파일 만들 때 사용.
+				"build"	: "tsc && node dist" 		OR
+				"build"	: "ntsc && node dist"
+			},
+
+			...
+		}
+
+
+========================================================
+* Step9. `package.json` 파일에 등록한 명령 실행
+========================================================
+
+	-----------------------------
+	1st. case : *개발*할 때 수행
+	-----------------------------
+
+		> npm run dev
+
+	-----------------------------
+	2nd. case : *배포*할 때 수행
+	-----------------------------
+
+		> npm run build
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

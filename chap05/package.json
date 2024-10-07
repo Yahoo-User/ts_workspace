@@ -1,0 +1,78 @@
+{
+  "name": "chap05",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node src",
+    
+    "05-1": "ts-node src/05-1",
+      "sample1": "ts-node src/05-1/sample1",
+      "sample2": "ts-node src/05-1/sample2",
+      "sample3": "ts-node src/05-1/sample3",
+      "sample4-1": "ts-node src/05-1/sample4-1",
+      "sample4-2": "ts-node src/05-1/sample4-2",
+      "sample4-3": "ts-node src/05-1/sample4-3",
+      "sample5": "ts-node src/05-1/sample5",
+      "sample6": "ts-node src/05-1/sample6",
+      "sample7": "ts-node src/05-1/sample7",
+      "sample8": "ts-node src/05-1/sample8",
+      "sample9-1": "ts-node src/05-1/sample9-1",
+      "sample9-2": "ts-node src/05-1/sample9-2",
+      "sample10": "ts-node src/05-1/sample10",
+      "sample11": "ts-node src/05-1/sample11",
+      "sample12": "ts-node src/05-1/sample12",
+      "sample13-1": "ts-node src/05-1/sample13-1",
+      "sample13-2": "ts-node src/05-1/sample13-2",
+
+    "05-2": "ts-node src/05-2",
+      "sample14": "ts-node src/05-2/sample14",
+      "sample15": "ts-node src/05-2/sample15",
+      "sample16-1": "ts-node src/05-2/sample16-1",
+      "sample16-2": "ts-node src/05-2/sample16-2",
+      "sample17": "ts-node src/05-2/sample17",
+      "sample18-1": "ts-node src/05-2/sample18-1",
+      "sample18-2": "ts-node src/05-2/sample18-2",
+      "sample18-3": "ts-node src/05-2/sample18-3",
+      "sample19": "ts-node src/05-2/sample19",
+      "sample20": "ts-node src/05-2/sample20",
+      "sample21-1": "ts-node src/05-2/sample21-1",
+      "sample21-2": "ts-node src/05-2/sample21-2",
+
+    "05-3": "ts-node src/05-3",
+      "sample22": "ts-node src/05-3/sample22",
+      "sample23": "ts-node src/05-3/sample23",
+      "sample24": "ts-node src/05-3/sample24",
+
+    "05-4": "ts-node src/05-4",
+      "sample25": "ts-node src/05-4/sample25",
+      "sample26": "ts-node src/05-4/sample26",
+      "sample27": "ts-node src/05-4/sample27",
+      "sample28": "ts-node src/05-4/sample28",
+      "sample29": "ts-node src/05-4/sample29",
+      "sample30-1": "ts-node src/05-4/sample30-1",
+      "sample30-2": "ts-node src/05-4/sample30-2",
+      "sample31-1": "ts-node src/05-4/sample31-1",
+      "sample31-2": "ts-node src/05-4/sample31-2",
+      "sample32-1": "ts-node src/05-4/sample32-1",
+      "sample32-2": "ts-node src/05-4/sample32-2",
+
+    "05-5": "ts-node src/05-5",
+      "sample33-1": "ts-node src/05-5/sample33-1",
+      "sample33-2": "ts-node src/05-5/sample33-2",
+      "sample33-3": "ts-node src/05-5/sample33-3",
+
+    "build": "tsc && node dist",
+    "clean": "rm -rf dist nod_modules"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@types/node": "^20.9.0"
+  }
+}

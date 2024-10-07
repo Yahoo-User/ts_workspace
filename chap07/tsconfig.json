@@ -1,0 +1,60 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",                     // ①
+    "esModuleInterop": true,                  // ②
+    "target": "es5",                          // ③
+    "moduleResolution": "node",               // ④
+    "outDir": "dist",                         // ⑤
+    "baseUrl": ".",                           // ⑥
+    "sourceMap": true,                        // ⑦
+
+    /*
+      # --------------------------------------------
+      # Downlevel Iteration - "downlevelIteration"
+      # --------------------------------------------
+
+      (1) Downleveling is TypeScript’s term for transpiling to an older version of JavaScript.  <--- ***
+
+      (2) This flag is to enable support for a more accurate implementation of
+          how modern JavaScript iterates through new concepts in older JavaScript runtimes.
+
+      (3) ECMAScript 6 added several new "iteration primitives":                                <--- ***
+          a. the "for...of" loop ( for(el of arr) ) 
+          b. Array spread ([a, ...b])
+          c. argument spread (fn(...args))
+          d. [Symbol.iterator] method in the "generator" class.
+      
+      (4) "downlevelIteration" allows for these "iteration primitives" 
+          to be used more accurately in "ES5" environments
+          if a "Symbol.iterator" implementation is present.                                     <--- ***
+
+          ㅇ Example: Effects on "for...of" 
+
+            With this "TypeScript" code:
+
+              const str = "Hello!";
+
+              for (const s of str) {
+                console.log(s);
+              } // for...of
+
+            Without "downlevelIteration" enabled,
+            a "for...of" loop on any object is downleveled to a "traditional for loop":
+
+              "use strict";
+
+              var str = "Hello!";
+
+              for (var _i = 0, str_1 = str; _i < str_1.length; _i++) {
+                  var s = str_1[_i];
+                  console.log(s);
+              }
+    */
+    "downlevelIteration": true,               // ⑧ It's required to use "asynchronous API" in "Node.JS".
+    "noImplicitAny": false,                   // ⑨
+    "paths": { "*": [ "node_modules/*" ] }    // ⑩
+  },
+
+  "include": [ "src/**/*" ],                  // ⑪
+  "exclude": [ "dist" ]                       // ⑫
+}
